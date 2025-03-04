@@ -25,7 +25,8 @@ const QuioscoProvider = ({children}) => {
         try {
             //const respuesta = await axios('http://localhost/api/categorias')
             //console.log(respuesta)
-            const {data} = await axios('http://localhost/api/categorias')
+            //console.log(import.meta.env.VITE_API_URL)
+            const {data} = await axios(`${import.meta.env.VITE_API_URL}/api/categorias`)
             setCategorias(data.data)
             console.log(data.data)
             setCategoriaActual(data.data[0])
