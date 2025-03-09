@@ -9,7 +9,7 @@ export default function Alerta({ children }) {
         {childrenArray.map((child, i) => (
           <React.Fragment key={i}>
             {child}
-            {index < childrenArray.length - 1 && <br />}
+            {i < childrenArray.length - 1 && <br />}
           </React.Fragment>
         ))}
       </div>

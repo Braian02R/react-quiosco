@@ -23,8 +23,8 @@ export default function Registro() {
         }
         //console.log(datos)
         try {
-            const respuesta = await clienteAxios.post('/api/registro', datos)
-            console.log(respuesta)
+            const {data} = await clienteAxios.post('/api/registro', datos)
+            console.log(data.token)
         } catch (error) {
             //console.log(error.response.data.errors)
             //console.log(Object.values(error.response.data.errors))
