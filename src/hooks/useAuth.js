@@ -33,8 +33,16 @@ export const useAuth = ({middleware, url}) => {
         }
     }
 
-    const registro = () => {
-
+    const registro = async (datos, setErrores) => {
+        try {
+            const {data} = await clienteAxios.post('/api/registro', datos)
+            //console.log(data.token)
+            localStorage.setItem('AUTH_TOKEN', data.token)
+            setErrores([])
+            await mutate()
+        } catch (error) {
+            setErrores(Object.values(error.response.data.errors))
+        }
     }
 
     const logout = async () => {
@@ -52,9 +60,8 @@ export const useAuth = ({middleware, url}) => {
         }
     }
 
-    console.log(user)
-    console.log(error)
-
+    //console.log(user)
+    //console.log(error)
     useEffect(() => {
         if(middleware === 'guest' && url && user) {
             navigate(url)
