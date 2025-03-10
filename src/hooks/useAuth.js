@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useSWR from "swr";
-import { useNavigate } from "react-router-dom";
+import { Await, useNavigate } from "react-router-dom";
 import clienteAxios from "../../config/axios";
 
 export const useAuth = ({middleware, url}) => {
@@ -37,8 +37,19 @@ export const useAuth = ({middleware, url}) => {
 
     }
 
-    const logout = () => {
-
+    const logout = async () => {
+        //console.log('click')
+        try {
+            await clienteAxios.post('/api/logout', null, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            localStorage.removeItem('AUTH_TOKEN')
+            await mutate(undefined)
+        } catch (error) {
+            throw Error(error?.response?.data?.errors)
+        }
     }
 
     console.log(user)
