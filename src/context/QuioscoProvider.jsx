@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react"
 import { toast } from "react-toastify";
 import clienteAxios from "../../config/axios";
+import { productos } from "../data/productos";
 
 const QuioscoContext = createContext();
 
@@ -74,19 +75,36 @@ const QuioscoProvider = ({children}) => {
         toast.success('Eliminado del Pedido')
     }
 
-    const handleSubmitNuevaOrden = async () => {
+    const handleSubmitNuevaOrden = async (logout) => {
         const token = localStorage.getItem('AUTH_TOKEN')
 
         try {
-            await clienteAxios.post('/api/pedidos', 
+            const {data} = await clienteAxios.post('/api/pedidos', 
             {
-                 
+                total,
+                productos: pedido.map(producto => {
+                    return {
+                        id: producto.id,
+                        cantidad: producto.cantidad
+                    }
+                })
             },
             {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
+
+            toast.success(data.message);
+            setTimeout(() => {
+                setPedido([])
+            }, 1000)
+
+            // Cerrar la sesión del usuario
+            setTimeout(() => {
+                localStorage.removeItem('AUTH_TOKEN');
+                logout();
+            }, 3000);
         } catch (error) {
             console.log(error)
         }
