@@ -16,7 +16,7 @@ export default function Ordenes() {
 
     const {handleClickCompletarPedido} = useQuiosco()
 
-    console.log(data?.data.data);
+    //console.log(data?.data.data);
     // console.log(error);
     // console.log(isLoandig);
     
